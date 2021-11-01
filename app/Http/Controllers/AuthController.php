@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Validator;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 
 class AuthController extends Controller
 {
@@ -59,4 +60,17 @@ class AuthController extends Controller
         auth()->user()->currentAccessToken()->delete();
         return response()->json(["Done"]);
     }
+
+    
+    public function userList()
+    {
+        $users = User::select('*')->with('posts')->get();
+        return $users;
+
+        // return Event::with(['city.companies.persons' => function ($query) {
+        //     $query->select('id', '...');
+        // }])->get();
+    }
+
+
 }
